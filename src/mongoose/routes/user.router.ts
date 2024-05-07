@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 const router = express.Router();
 
 import { User } from "../models/user.model.js";
-import { UserEndPoints } from "../../api/endpoints.enums.js";
+import { UserEndPoints } from "../../api/enums/endpoints.enums.js";
 
 // Get all users data
 router.get(UserEndPoints.GET_ALL, async (_, res) => {
@@ -20,19 +20,19 @@ router.get(UserEndPoints.GET_ALL, async (_, res) => {
 });
 
 // create user data
-router.post(UserEndPoints.POST_USER, async (req, res) => {
-  try {
-    const newId = uuidv4();
-    const data = await User.create({ uuid: newId, ...req.body });
-    console.log("Users data added!", data);
-    res.status(201).json({
-      response: { code: 201, message: "Successfully Created users!" },
-      data,
-    });
-  } catch (error) {
-    console.log("Error while creating the user data", error);
-  }
-});
+// router.post(UserEndPoints.POST_USER, async (req, res) => {
+//   try {
+//     const newId = uuidv4();
+//     const data = await User.create({ uuid: newId, ...req.body });
+//     console.log("Users data added!", data);
+//     res.status(201).json({
+//       response: { code: 201, message: "Successfully Created users!" },
+//       data,
+//     });
+//   } catch (error) {
+//     console.log("Error while creating the user data", error);
+//   }
+// });
 
 // Get one student by ID
 router.get(UserEndPoints.GET, async (req, res) => {

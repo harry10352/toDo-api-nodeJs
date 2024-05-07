@@ -2,10 +2,10 @@ import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
   uuid: String,
-  name: String,
-  phone: String,
-  email: String,
-  password: String,
+  name: { type: String, require: true },
+  phone: { type: Number, require: true },
+  email: { type: String, require: true },
+  password: { type: String, require: true },
 });
 
 const User = mongoose.model("user", userSchema);

@@ -5,20 +5,25 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 
 import { router as userRouter } from "./mongoose/routes/user.router.js";
+import { authRouter } from "./mongoose/routes/auth.router.js";
 
 dotenv.config();
 
 // connect to mongoDB
-const mongo_URI = "mongodb://localhost:27017/";
 const port = "4000";
 
 async function connectToMongo(URI: string) {
   await mongoose.connect(URI);
-  console.log("connected to DB!!");
 }
-
+const uri = process.env.DATABASE_URL || "mongodb://localhost:27017/";
 try {
-  await connectToMongo(mongo_URI);
+  connectToMongo(uri)
+    .then(() => {
+      console.log(uri, "connected! to server DB");
+    })
+    .catch((e) => {
+      console.error("Error while connecting to server DB", e);
+    });
 } catch (error) {
   console.error("Error while connecting", error);
 }
@@ -30,6 +35,7 @@ app.use(cors());
 app.use(cookieParser());
 
 app.use("/api", userRouter);
+app.use("/auth", authRouter);
 
 app.get("/", (req, res) => {
   console.log(req);

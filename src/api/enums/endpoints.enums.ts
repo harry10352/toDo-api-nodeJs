@@ -6,4 +6,9 @@ enum UserEndPoints {
   DELETE_USER = "/user/delete/:id",
 }
 
-export { UserEndPoints };
+enum AuthEndPoints {
+  LOGIN = "/login",
+  REGISTER = "/register",
+}
+
+export { UserEndPoints, AuthEndPoints };
