@@ -19,4 +19,20 @@ function userPayloadValidation(req: { body: UserType }, res: any, next: any) {
   next();
 }
 
-export { userPayloadValidation };
+function userLoginValidation(req: { body: UserType }, res: any, next: any) {
+  const schema = joi.object({
+    email: joi.string().email().required(),
+    password: joi.string().min(8).max(16).alphanum().required(),
+  });
+  const { error, value } = schema.validate(req.body);
+
+  if (error)
+    return res.status(400).json({
+      response: { code: 400, message: "Invalid User!" },
+      error,
+    });
+
+  next();
+}
+
+export { userPayloadValidation, userLoginValidation };
