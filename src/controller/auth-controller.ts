@@ -33,7 +33,7 @@ async function loginUser(req: { body: UserBodyType }, res: any) {
       email: validUser.email,
     };
     const jwtToken = sign(tokenObj, envr.SERVER_SECRET || "", {
-      expiresIn: "1m",
+      expiresIn: "15m",
     });
     return res.status(200).json({
       response: {

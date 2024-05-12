@@ -4,8 +4,8 @@ import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 
-import { router as userRouter } from "./mongoose/routes/user.router.js";
 import { authRouter } from "./mongoose/routes/auth.router.js";
+import { UserRouter } from "./mongoose/routes/user.router.js";
 
 dotenv.config();
 
@@ -34,7 +34,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 app.use(cookieParser());
 
-app.use("/api", userRouter);
+app.use("/api", UserRouter);
 app.use("/auth", authRouter);
 
 app.get("/", (req, res) => {
