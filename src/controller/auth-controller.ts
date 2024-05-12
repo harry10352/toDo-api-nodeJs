@@ -2,7 +2,6 @@ import { compare, hash } from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 import { User } from "../mongoose/models/user.model";
 import { UserBodyType } from "../type/user";
-import { valid } from "joi";
 import { sign } from "jsonwebtoken";
 
 const envr = process.env;
@@ -52,9 +51,21 @@ async function loginUser(req: { body: UserBodyType }, res: any) {
 }
 
 async function registerUser(req: { body: UserBodyType }, res: any) {
+  const emailExist = await User.findOne({ email: req.body.email });
+  const phoneExist = await User.findOne({ phone: req.body.phone });
+  if (emailExist || phoneExist) {
+    try {
+      console.log("Duplicate user already exist!", req.body);
+      return res.status(409).json({
+        response: { code: 409, message: "Duplicate user already exist!" },
+      });
+    } catch (error) {
+      return console.log("Error while registering the user data", error);
+    }
+  }
+
   const uuid = uuidv4();
   const userModel = new User({ uuid, ...req.body });
-  // const data = await User.create({ uuid: newId, ...userModel });
   userModel.password = await hash(req.body.password, 10);
 
   try {
