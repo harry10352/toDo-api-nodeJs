@@ -8,8 +8,8 @@ import {
 } from "../../controller/user.controller";
 
 const router = Router();
-router.post(UserEndPoints.GET_ALL, validateToken, getUser);
-router.post(UserEndPoints.GET, validateToken, getUserById);
-router.post(UserEndPoints.DELETE_USER, validateToken, deleteUser);
+router.get(UserEndPoints.GET_ALL, validateToken, getUser);
+router.get(UserEndPoints.GET, validateToken, getUserById);
+router.delete(UserEndPoints.DELETE_USER, validateToken, deleteUser);
 
 export { router as UserRouter };

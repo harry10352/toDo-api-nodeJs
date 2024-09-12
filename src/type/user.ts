@@ -4,6 +4,7 @@ interface UserType {
   phone: number;
   email: string;
   password: string;
+  roleType: string;
 }
 
 interface UserBodyType {
@@ -11,6 +12,16 @@ interface UserBodyType {
   phone: number;
   email: string;
   password: string;
+  roleType: string;
 }
 
-export { UserType, UserBodyType };
+
+interface JwtDecodeType {
+  name: string;
+  email: string;
+  id: string;
+  iat: string;
+  exp: string;
+}
+
+export { UserType, UserBodyType, JwtDecodeType };

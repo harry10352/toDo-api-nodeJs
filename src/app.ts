@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 
 import { authRouter } from "./mongoose/routes/auth.router.js";
 import { UserRouter } from "./mongoose/routes/user.router.js";
+import { NotesRouter } from "./mongoose/routes/notes.router.js";
 
 dotenv.config();
 
@@ -34,8 +35,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 app.use(cookieParser());
 
-app.use("/api", UserRouter);
 app.use("/auth", authRouter);
+app.use("/api", UserRouter);
+app.use("/notes", NotesRouter);
 
 app.get("/", (req, res) => {
   console.log(req);

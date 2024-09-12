@@ -7,6 +7,7 @@ function userPayloadValidation(req: { body: UserType }, res: any, next: any) {
     email: joi.string().email().required(),
     phone: joi.number().min(10).required(),
     password: joi.string().min(8).max(16).alphanum().required(),
+    roleType: joi.string().min(4).required(),
   });
   const { error, value } = schema.validate(req.body);
 
