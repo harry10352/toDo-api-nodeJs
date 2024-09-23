@@ -1,9 +1,11 @@
 import express from "express";
 import { jwtDecode } from "jwt-decode";
-import { ReqtHeadersType, INotesType } from "../type/notes";
+import { ReqtHeadersType, INotesType, ReqtParamsType } from "../type/notes";
 import { Notes } from "../mongoose/models/notes.model";
 import { User } from "../mongoose/models/user.model";
 import { JwtDecodeType } from "../type/user";
+import { decodeJwtToken } from "../utils/validate-token";
+import { ObjectId } from "mongodb"
 
 // Create Notes
 async function createNote(
@@ -11,10 +13,10 @@ async function createNote(
   res: any
 ) {
   try {
-    const decodedToken: JwtDecodeType = jwtDecode(req.headers.authorization);
-    console.log("log", req.headers, decodedToken);
+    const decodedToken: JwtDecodeType = decodeJwtToken(
+      req.headers.authorization
+    );
     const userData = await User.findById(decodedToken.id);
-    console.log("data", userData);
     const createdDate = Date.now();
     const noteModel = new Notes({
       createdDate,
@@ -43,8 +45,7 @@ async function createNote(
 
 // Get all notes by ID
 async function getNotesById(req: { headers: ReqtHeadersType }, res: any) {
-  const decodedToken: JwtDecodeType = jwtDecode(req.headers.authorization);
-  console.log("log", req.headers, decodedToken);
+  const decodedToken: JwtDecodeType = decodeJwtToken(req.headers.authorization);
   try {
     const data = await Notes.find({ userId: decodedToken.id });
     console.log("All users data reterived!", data);
@@ -57,18 +58,31 @@ async function getNotesById(req: { headers: ReqtHeadersType }, res: any) {
   }
 }
 
-// // Delete user data
-// async function deleteUser(req: { body: UserBodyType; params: any }, res: any) {
-//   try {
-//     const data = await User.findByIdAndDelete(req.params.id);
-//     console.log("Successfully deleted the user!", data);
-//     res.status(200).json({
-//       response: { code: 200, message: "Successfully deleted the user!" },
-//       data,
-//     });
-//   } catch (error) {
-//     console.log("Error while deleting the user data", error);
-//   }
-// }
+// Delete user data
+async function deleteNotes(req: { headers: ReqtHeadersType, params: ReqtParamsType }, res: any) {
+  const decodedToken: JwtDecodeType = decodeJwtToken(req.headers.authorization);
+  const { noteid } = req.params;
+  try {
+    const data = await Notes.deleteOne({
+      _id: new ObjectId(noteid),
+      userId: decodedToken.id,
+    });
+    if (data.deletedCount === 0) {
+      return res.status(401).json({
+        response: {
+          code: 401,
+          message: `Invalid noteId or userId! OR Note doesn't exist!`,
+        },
+      });
+    }
+    console.log("Successfully deleted the note!", data);
+    res.status(200).json({
+      response: { code: 200, message: "Successfully deleted the note!" },
+      data,
+    });
+  } catch (error) {
+    console.log("Error while deleting the user data", error);
+  }
+}
 
-export { createNote, getNotesById };
+export { createNote, getNotesById, deleteNotes };

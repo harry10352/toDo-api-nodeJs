@@ -15,7 +15,8 @@ enum NotesEndPoints {
   CREATE = "/create",
   UPDATE = "/update/:id",
   GET_ALL = "/all",
-  DELETE = "/delete/:id",
+  GET = "/get",
+  DELETE = "/delete/:noteid",
 }
 
 export { UserEndPoints, AuthEndPoints, NotesEndPoints };

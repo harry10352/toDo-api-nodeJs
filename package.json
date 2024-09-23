@@ -4,8 +4,6 @@
     "@types/cors": "^2.8.17",
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.21",
-    "@types/mongodb": "^4.0.7",
-    "@types/mongoose": "^5.11.97",
     "@types/node": "^20.12.7",
     "@types/uuid": "^9.0.8",
     "concurrently": "^8.2.2",
@@ -17,7 +15,6 @@
   "main": "index.js",
   "dependencies": {
     "@types/bcrypt": "^5.0.2",
-    "@types/joi": "^17.2.3",
     "@types/jsonwebtoken": "^9.0.6",
     "abbrev": "^1.1.1",
     "anymatch": "^3.1.3",

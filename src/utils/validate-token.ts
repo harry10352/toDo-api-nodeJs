@@ -1,5 +1,6 @@
 import { verify } from "jsonwebtoken";
-import { UserType } from "../type/user";
+import { JwtDecodeType, UserType } from "../type/user";
+import { jwtDecode } from "jwt-decode";
 
 function validateToken(
   req: { body: UserType; headers: any },
@@ -26,4 +27,10 @@ function validateToken(
   }
 }
 
-export { validateToken };
+function decodeJwtToken(token: string) {
+  const decodedToken: JwtDecodeType = jwtDecode(token);
+  console.log("log", token, decodedToken);
+  return decodedToken;
+}
+
+export { validateToken, decodeJwtToken };
